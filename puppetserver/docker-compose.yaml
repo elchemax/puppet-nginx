@@ -1,0 +1,19 @@
+services:
+  puppet:
+    build: .
+    container_name: puppet
+    ports:
+      - "8140:8140"
+    networks:
+        skynet:
+            ipv4_address: 172.20.0.7
+    extra_hosts:
+        - "nginx:172.20.0.3"
+    environment:
+        - PATH=/opt/puppetlabs/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    volumes:
+        - ./production:/etc/puppetlabs/code/environments/production
+
+networks:
+    skynet:
+        external: true

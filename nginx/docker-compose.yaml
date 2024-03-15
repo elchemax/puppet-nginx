@@ -1,0 +1,15 @@
+services:
+  nginx:
+    build: .
+    container_name: nginx
+    ports:
+      - "8080:80"
+    networks:
+        skynet:
+            ipv4_address: 172.20.0.3
+    extra_hosts:
+        - "puppet:172.20.0.7"
+
+networks:
+    skynet:
+        external: true

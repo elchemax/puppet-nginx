@@ -2,11 +2,10 @@
 
 This module is an exercise to manage nginx with puppet. Both nginx and the puppet server run on docker containers.
 
-It does three things:
+It does two things:
 
-- It creates a proxy to redirect requests for https://domain.com to 10.10.10.10 and redirect requests for https://domain.com/resoure2 to 20.20.20.20.
-- It creastes a forward proxy to log HTTP requests going from the internal network to the Internet including request protocol, remote IP and time taken to serve the request.
-- It implements a proxy health check.
+- It creates a proxy to redirect requests for https://domain.com to 10.10.10.10 and redirect requests for https://domain.com/resource2 to 20.20.20.20.
+- It creates a forward proxy to log HTTP requests going from the internal network to the Internet including request protocol, remote IP and time taken to serve the request.
 
 
 # Requirements
@@ -138,6 +137,12 @@ Remove the pid file:
 
 Now try again. Good luck!
 
+# Upcoming version
+
+Currently I'm working on a new feature:
+
+- Implementing a proxy health check.
+
 # Useful links
 
 Install puppet on docker, the setup was too complex for this exercise but it was a good starting point:
@@ -163,3 +168,11 @@ https://stackoverflow.com/questions/16305610/logging-the-request-protocol-in-ngi
 Also, I found an example about how to set the log format in puppet for nginx here:
 
 https://github.com/voxpupuli/puppet-nginx/issues/1139
+
+About nginx health checks:
+
+https://docs.nginx.com/nginx/admin-guide/load-balancer/http-health-check/
+
+How to configure upstream resource in nginx:
+
+https://www.puppetmodule.info/modules/spantree-nginx/0.0.1/puppet_defined_types/nginx_3A_3Aresource_3A_3Aupstream

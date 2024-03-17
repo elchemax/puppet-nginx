@@ -2,11 +2,11 @@
 
 This module is an exercise to manage nginx with puppet. Both nginx and the puppet server run on docker containers.
 
-It does two things:
+It does three things:
 
 - It creates a proxy to redirect requests for https://domain.com to 10.10.10.10 and redirect requests for https://domain.com/resource2 to 20.20.20.20.
 - It creates a forward proxy to log HTTP requests going from the internal network to the Internet including request protocol, remote IP and time taken to serve the request.
-
+- Implements a proxy health check.
 
 # Requirements
 
@@ -124,6 +124,17 @@ On the log we can see the connection in the custom format [date] - protocol - "a
 > ==> /var/log/nginx/forward-proxy.com.access.log <==
 > [15/Mar/2024:20:38:02 +0000] - http - "127.0.0.1" [0.447]
 
+## Checking the proxy health check
+
+Puppet creates /etc/nginx/conf.d/backend-upstream.conf with the configuration of the proxy health check, just check its contents in the docker container:
+
+> root@404b1f12e31e:/# cat /etc/nginx/conf.d/backend-upstream.conf 
+\# MANAGED BY PUPPET
+upstream backend {
+  server 10.10.10.10:80 max_fails=1 fail_timeout=60s;
+  server 20.20.20.20:80 max_fails=1 fail_timeout=60s;
+}
+
 
 # Troubleshooting
 
@@ -137,11 +148,6 @@ Remove the pid file:
 
 Now try again. Good luck!
 
-# Upcoming version
-
-Currently I'm working on a new feature:
-
-- Implementing a proxy health check.
 
 # Useful links
 

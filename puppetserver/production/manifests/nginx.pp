@@ -9,8 +9,9 @@ class{'nginx':
   nginx::resource::server{'www.domain.com':
     #www_root => '/usr/share/nginx/html/domain.com/html/',
     listen_port => 80,
-    proxy       => 'http://10.10.10.10/',
+    proxy       => 'http://backend',
     access_log  => '/var/log/nginx/www.domain.com.access.log',
+
   }
 
   nginx::resource::location{'/resource2':
@@ -22,10 +23,27 @@ class{'nginx':
    path   => '/etc/nginx/conf.d/default.conf',
    ensure => absent,
   }
-  
+
   nginx::resource::server{'forward-proxy.com':
     listen_port => 777,
     proxy       => 'https://$http_host$request_uri',
     format_log  => 'internal_to_internet',
     resolver    => ['8.8.8.8'],
   }
+
+  nginx::resource::upstream{'backend':
+    ensure => present,
+    members => {
+        '10.10.10.10'   => {
+            server => '10.10.10.10',
+            max_fails => 1,
+            fail_timeout => '60s',
+        },
+        '20.20.20.20'   => {
+            server => '20.20.20.20',
+            max_fails => 1,
+            fail_timeout => '60s',
+        },
+    }
+  }
+

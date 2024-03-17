@@ -107,7 +107,7 @@ Monitor the logs while executing the command above:
 172.20.0.1 - - [15/Mar/2024:20:47:28 +0000] "GET / HTTP/1.1" 499 0 "-" "curl/7.88.1"
 172.20.0.1 - - [15/Mar/2024:20:47:29 +0000] "GET /favicon.ico HTTP/1.1" 504 167 "http://domain.com:8080/" "Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0"
 
-==> /var/log/nginx/www.domain.com.error.log <==
+> ==> /var/log/nginx/www.domain.com.error.log <==
 2024/03/15 20:47:29 [error] 1759#1759: *10 upstream timed out (110: Connection timed out) while connecting to upstream, client: 172.20.0.1, server: www.domain.com, request: "GET /favicon.ico HTTP/1.1", upstream: "http://10.10.10.10:80/favicon.ico", host: "domain.com:8080", referrer: "http://domain.com:8080/"
 
 This is an expected result, since the request is redirected, but nothing listens on 10.10.10.10.
